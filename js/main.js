@@ -107,6 +107,20 @@ $('btn-start').addEventListener('click', () => {
 $('btn-advance').addEventListener('click', advance);
 
 document.addEventListener('keydown', (e) => {
+  // Step back and forth through what the desk has said. Only in the terminal,
+  // and never while an overlay is up. Buttons are deliberately NOT excluded —
+  // arrows do nothing on a button, so bailing when one has focus would mean
+  // clicking the nav once stopped the keys from working.
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (!$('overlay').classList.contains('hidden')) return;
+    if (!$('boot').classList.contains('hidden')) return;
+    const t = e.target;
+    if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement
+      || t instanceof HTMLSelectElement || t?.isContentEditable) return;
+    if (Desk.stepSquawk(e.key === 'ArrowLeft' ? -1 : 1)) e.preventDefault();
+    return;
+  }
+
   if (e.key !== 'Enter') return;
   const overlay = $('overlay');
   if (!overlay.classList.contains('hidden')) {

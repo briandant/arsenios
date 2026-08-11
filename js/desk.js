@@ -12,16 +12,24 @@ import { DESK } from './data.js';
 import { allZScores } from './engine.js';
 
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const HOLD_MS = 5200;          // how long a squawk stays up
+const POSE_MS = 4200;          // how long the speaker holds the lean-in
 const TREY_DELAY = 1150;       // how long Trey waits before agreeing
 const TREY_ODDS = 0.3;
+const MAX_HISTORY = 300;       // a full semester runs ~120 squawks
 
 let deskEl = null;
 let seats = {};                // id → seat element
 let bubble = null, whoEl = null, textEl = null, tailEl = null, idleEl = null;
-let holdTimer = null, treyTimer = null;
+let countEl = null, prevBtn = null, nextBtn = null;
+let poseTimer = null, treyTimer = null;
 let lastSpeaker = null, treySpokeLast = false;
 const recentLines = [];        // avoid repeating a line while it is still fresh
+
+// The squawk box is a transcript, not a toast. Nothing expires — a line you
+// are still reading should not vanish, and the writing is most of the point —
+// so the box holds the latest line and you can step back through the rest.
+const history = [];
+let cursor = -1;
 
 // ── Drawing an analyst ─────────────────────────────────────────────────────
 // Phosphor silhouettes, not portraits — at this size a face is a smudge, so
@@ -111,7 +119,14 @@ export function mountDesk(el) {
     <div class="squawk" id="squawk">
       <div class="squawk-idle" id="squawk-idle">Squawk box open. Fill a slot and somebody will have something to say about it.</div>
       <div class="squawk-body" id="squawk-body">
-        <div class="squawk-who" id="squawk-who"></div>
+        <div class="squawk-head">
+          <span class="squawk-who" id="squawk-who"></span>
+          <span class="squawk-nav">
+            <button type="button" id="sq-prev" title="Earlier squawk (←)" aria-label="Earlier squawk">◀</button>
+            <span class="squawk-count" id="squawk-count"></span>
+            <button type="button" id="sq-next" title="Later squawk (→)" aria-label="Later squawk">▶</button>
+          </span>
+        </div>
         <div class="squawk-text" id="squawk-text"></div>
       </div>
       <i class="squawk-tail" id="squawk-tail"></i>
@@ -135,6 +150,21 @@ export function mountDesk(el) {
   textEl = el.querySelector('#squawk-text');
   tailEl = el.querySelector('#squawk-tail');
   idleEl = el.querySelector('#squawk-idle');
+  countEl = el.querySelector('#squawk-count');
+  prevBtn = el.querySelector('#sq-prev');
+  nextBtn = el.querySelector('#sq-next');
+
+  prevBtn.addEventListener('click', () => stepSquawk(-1));
+  nextBtn.addEventListener('click', () => stepSquawk(1));
+}
+
+/** Step through the transcript. -1 is earlier, +1 is later. */
+export function stepSquawk(dir) {
+  const next = cursor + dir;
+  if (next < 0 || next >= history.length) return false;
+  cursor = next;
+  show(history[cursor], false);
+  return true;
 }
 
 // ── Who talks ──────────────────────────────────────────────────────────────
@@ -201,40 +231,61 @@ function fill(text, ctx) {
 // ── Saying it ──────────────────────────────────────────────────────────────
 
 function say(analyst, text) {
-  const seat = seats[analyst.id];
-  if (!seat || !bubble) return;
+  if (!seats[analyst.id] || !bubble) return;
 
   // Drop any pending follow-up. Players fill slots faster than the intern
   // gets his sentence out, and a stale timer would land him agreeing with
   // somebody who spoke two picks ago.
   clearTimeout(treyTimer);
 
-  whoEl.textContent = `${analyst.name} · ${analyst.desk}`;
-  textEl.textContent = `“${text}”`;
+  history.push({ id: analyst.id, who: `${analyst.name} · ${analyst.desk}`, text });
+  if (history.length > MAX_HISTORY) history.shift();
+  cursor = history.length - 1;
+  lastSpeaker = analyst.id;
+  show(history[cursor], true);
+}
+
+/**
+ * Put one transcript entry on screen. `live` means it was just said — only
+ * then does the desk react to it, so stepping back through the log reads as
+ * recall rather than five people saying it all again.
+ */
+function show(entry, live) {
+  const seat = seats[entry.id];
+  if (!seat || !bubble) return;
+
+  whoEl.textContent = entry.who;
+  textEl.textContent = `“${entry.text}”`;
   bubble.classList.add('live');
+  bubble.classList.toggle('recall', cursor < history.length - 1);
   idleEl.hidden = true;
 
-  // Point the tail at whoever is talking. Transitioning `left` means the desk
+  countEl.textContent = `${cursor + 1} / ${history.length}`;
+  prevBtn.disabled = cursor <= 0;
+  nextBtn.disabled = cursor >= history.length - 1;
+
+  // Point the tail at whoever said it. Transitioning `left` means the desk
   // visibly turns to them.
   const r = seat.getBoundingClientRect();
   const d = bubble.getBoundingClientRect();
   if (d.width) tailEl.style.left = `${((r.left + r.width / 2 - d.left) / d.width) * 100}%`;
 
+  clearTimeout(poseTimer);
   Object.values(seats).forEach((s) => s.classList.remove('talking', 'nodding'));
   seat.classList.add('talking');
-  if (analyst.id !== 'trey' && seats.trey) seats.trey.classList.add('nodding');
+  if (live && entry.id !== 'trey' && seats.trey) seats.trey.classList.add('nodding');
 
+  // Popping the box on every arrow press would fight the reader, so only a
+  // fresh squawk gets the animation.
   bubble.classList.remove('pop');
   void bubble.offsetWidth;                       // restart the pop keyframe
-  if (!REDUCED) bubble.classList.add('pop');
+  if (live && !REDUCED) bubble.classList.add('pop');
 
-  lastSpeaker = analyst.id;
-  clearTimeout(holdTimer);
-  holdTimer = setTimeout(() => {
-    bubble.classList.remove('live');
-    idleEl.hidden = false;
+  // The lean is a reaction and settles. The line itself stays up until the
+  // desk has something new to say, or you go looking for something older.
+  poseTimer = setTimeout(() => {
     Object.values(seats).forEach((s) => s.classList.remove('talking', 'nodding'));
-  }, HOLD_MS);
+  }, POSE_MS);
 }
 
 /** The intern's entire contribution: agreeing, slightly too late. */
@@ -303,13 +354,15 @@ export function squawkPrint(state, pct) {
 }
 
 export function resetDesk() {
-  clearTimeout(holdTimer);
+  clearTimeout(poseTimer);
   clearTimeout(treyTimer);
   lastSpeaker = null;
   treySpokeLast = false;
   recentLines.length = 0;
+  history.length = 0;
+  cursor = -1;
   if (!bubble) return;
-  bubble.classList.remove('live', 'pop');
+  bubble.classList.remove('live', 'pop', 'recall');
   idleEl.hidden = false;
   Object.values(seats).forEach((s) => s.classList.remove('talking', 'nodding'));
 }

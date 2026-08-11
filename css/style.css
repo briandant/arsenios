@@ -378,7 +378,9 @@ body {
      has to reach for somebody outside the box. */
   max-width: 660px;
   margin: 0 auto 11px;
-  min-height: 52px;
+  /* Reserve two lines. The box is persistent now, so the cost of guessing low
+     is the whole band jumping while you arrow through the log. */
+  min-height: 70px;
   display: flex; flex-direction: column; justify-content: center;
   transition: border-color .25s;
 }
@@ -389,11 +391,41 @@ body {
 
 .squawk-body { display: none; }
 .squawk.live .squawk-body { display: block; }
+
+.squawk-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 10px; margin-bottom: 4px;
+}
 .squawk-who {
   font-size: 8.5px; letter-spacing: .16em; color: var(--garnet-lt);
-  margin-bottom: 4px;
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .squawk-text { font-size: 11.5px; line-height: 1.55; color: var(--text); }
+
+.squawk-nav { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; }
+.squawk-nav button {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--dim);
+  font-family: var(--mono); font-size: 7.5px; line-height: 1;
+  padding: 4px 7px;
+  min-width: 22px; min-height: 19px;
+  cursor: pointer;
+  transition: color .12s, border-color .12s;
+}
+.squawk-nav button:hover:not(:disabled) { color: var(--gold); border-color: var(--gold); }
+.squawk-nav button:disabled { opacity: .28; cursor: default; }
+.squawk-nav button:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.squawk-count {
+  font-size: 8.5px; letter-spacing: .1em; color: var(--dimmer);
+  font-variant-numeric: tabular-nums; min-width: 44px; text-align: center;
+}
+
+/* Scrolled back through the log rather than sitting on the newest line. */
+.squawk.recall { border-color: rgba(206,184,136,.5); }
+.squawk.recall .squawk-count { color: var(--gold); }
+.squawk.recall .squawk-tail { border-color: rgba(206,184,136,.5); }
 
 /* The notch points at whoever is talking, and slides when that changes —
    which is the desk visibly turning to look at them. */
@@ -645,8 +677,10 @@ body {
   .slot-row { grid-template-columns: repeat(3, 1fr); }
   .action-grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
   .layer-list { flex-direction: column-reverse; }
-  .squawk { min-height: 62px; }
+  .squawk { min-height: 84px; }
   .squawk-text { font-size: 11px; }
+  /* Thumbs, not cursors. */
+  .squawk-nav button { min-width: 30px; min-height: 27px; font-size: 8.5px; }
 }
 
 /* Everything the desk does is flavour, so all of it comes off. The squawk
