@@ -1,0 +1,8 @@
+# Not for indexing. This is a gift for one person, not a web property.
+#
+# Note: on a GitHub project page (briandant.github.io/arsenios) crawlers read
+# robots.txt from the domain root, so this file is inert there and the noindex
+# meta tag in index.html is what applies. This becomes effective once the site
+# is served from the apex domain arsenios.tech.
+User-agent: *
+Disallow: /

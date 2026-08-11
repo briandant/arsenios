@@ -7,7 +7,7 @@ closely held, carried on the books at cost because there was no market to mark h
 and this week he lists. You are the analyst covering him. Fifteen weeks, six slots each,
 and every candle on the tape is a week of his freshman year.
 
-**Live at [arsenios.tech](https://arsenios.tech)**
+**Live at [briandant.github.io/arsenios](https://briandant.github.io/arsenios/)**
 
 ---
 
@@ -97,7 +97,25 @@ Reference points from simulated play: optimized ≈ 5,900 (STRONG BUY), sensible
 
 ## Deployment
 
-GitHub Pages serves `main` from the repository root. `CNAME` points it at the custom
-domain; `.nojekyll` tells Pages to skip Jekyll and serve the files as-is.
+GitHub Pages serves `main` from the repository root. `.nojekyll` tells Pages to skip
+Jekyll and serve the files as-is.
+
+### Keeping it out of search results
+
+The `noindex` meta tag in `index.html` is what does the work. On a project page,
+crawlers read `robots.txt` from the *domain root* (`briandant.github.io/robots.txt`),
+which belongs to a different repository — so the `robots.txt` here is inert until the
+site moves to an apex domain, at which point it applies as written.
+
+The repository itself is public, because Pages requires it on a free account. The
+source is therefore visible on GitHub regardless of what the deployed page says.
+
+### Moving to a custom domain
+
+1. `echo arsenios.tech > CNAME`, commit, push.
+2. Point the apex at GitHub with four `A` records — `185.199.108.153`,
+   `.109.153`, `.110.153`, `.111.153` — plus the matching `AAAA` records at
+   `2606:50c0:800{0,1,2,3}::153`, and `www` as a `CNAME` to `briandant.github.io.`
+3. Wait for DNS, then enable Enforce HTTPS once the certificate is issued.
 
 Built with [Claude Code](https://claude.com/claude-code).
