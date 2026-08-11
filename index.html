@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>THE Z INDEX · $ARSN</title>
+<meta name="description" content="A fifteen-week technical analysis of one freshman year. Florida State, fall semester, one ticker." />
+<meta name="theme-color" content="#0b0b0e" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230b0b0e'/><text y='24' x='16' text-anchor='middle' font-size='22' font-family='monospace' fill='%23ceb888'>Z</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── Boot / handoff ──────────────────────────────────────────────────── -->
+<div id="boot" class="screen">
+  <div class="boot-inner">
+    <div class="memo memo-handoff">
+      <div class="memo-head">
+        <span class="memo-tag">INTERNAL MEMORANDUM · 001</span>
+        <span class="memo-date">EFFECTIVE IMMEDIATELY</span>
+      </div>
+      <h1 class="memo-title">NOTICE OF INITIAL PUBLIC OFFERING</h1>
+      <div class="memo-meta">
+        <div><span>FROM</span> B. DANT · OUTGOING SUPERVISOR OF RECORD</div>
+        <div><span>TO</span> FACULTY OPERATING COMMITTEE · FSU COLLEGE OF BUSINESS</div>
+        <div><span>RE</span> MONDA, ARSENIOS — LISTING &amp; TRANSFER OF AUTHORITY</div>
+      </div>
+      <div class="memo-body">
+        <p>For nineteen years the above-referenced asset has been <em>privately held</em>. Closely held,
+        in fact — a very small number of holders, none of whom ever indicated any interest in exiting
+        the position. He was carried on the books at cost because there was no market to mark him to.
+        He ate at home. He was insulated from the tape by people who chose to insulate him from it.</p>
+
+        <p>That arrangement ends this week. He loads two suitcases and a milk crate of books into a car
+        and drives to Tallahassee, and at the end of that drive he is a public company.</p>
+
+        <p>I want to be precise about what listing costs him, because the prospectus is vague on it.
+        Going public means the price is no longer ours to set. It means he can be marked down on a
+        Tuesday by people who have never met him. It means a bad week is a matter of record. Nobody
+        gets to open at a number of their own choosing, and there is no version of this where he stays
+        private and still finds out what he is worth.</p>
+
+        <p>The Committee has been briefed on our culture and has indicated it intends strictly to
+        <em>BUILD ON IT</em>. Their policies will be issued to him directly, by memorandum, beginning
+        shortly after arrival. I am told there are more of them than there were here.
+        I am told there is a soap policy, for which I am deeply grateful.</p>
+
+        <p>Six components will be tracked and consolidated into a single index. You will allocate his
+        time, six slots a week, for fifteen weeks, and the tape will tell you what it made of it.</p>
+
+        <p>One note the Committee left out of its onboarding packet, so I will put it in mine:
+        the layers on that chart can be reordered. Any one of them can be brought to the front. He
+        gets to decide which — not the Committee, and past a certain point not us either. Whichever
+        layer is in front at the closing bell is the one he takes with him.</p>
+
+        <p class="memo-sign">Ring the bell. He is better than the tape will make him look in week seven.</p>
+        <p class="memo-sign-name">— B.D.</p>
+      </div>
+      <button id="btn-start" class="btn btn-primary btn-lg">OPEN AT THE BELL →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Terminal ────────────────────────────────────────────────────────── -->
+<div id="game" class="screen hidden">
+
+  <header id="ticker-bar">
+    <div class="tb-left">
+      <div class="tb-name">THE Z INDEX <span class="tb-sym">$ARSN</span></div>
+      <div class="tb-sub">ARSENIOS MONDA, INC. · FSU COLLEGE OF BUSINESS</div>
+    </div>
+    <div class="tb-mid">
+      <div id="tb-level" class="tb-level">4,000.00</div>
+      <div id="tb-chg" class="tb-chg">—</div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-stat"><span>WEEK</span><b id="tb-week">1 / 15</b></div>
+      <div class="tb-stat"><span>COVERAGE</span><b id="tb-cov">HOLD</b></div>
+      <div class="tb-stat"><span>MAX DD</span><b id="tb-dd">0.0%</b></div>
+    </div>
+  </header>
+
+  <main id="terminal">
+
+    <aside id="panel-layers" class="panel">
+      <div class="panel-head">
+        <span>LAYERS</span>
+        <span class="panel-head-note">z-index</span>
+      </div>
+      <div id="layer-list" class="layer-list"></div>
+      <div class="panel-foot" id="layer-foot">Front layer decides the ending.</div>
+    </aside>
+
+    <section id="panel-chart" class="panel panel-chart">
+      <canvas id="chart"></canvas>
+      <div class="chart-legend">
+        <span><i class="sw" style="background:rgba(206,184,136,.85)"></i>MA3</span>
+        <span><i class="sw" style="background:rgba(120,47,64,.95)"></i>MA8</span>
+      </div>
+    </section>
+
+    <aside id="panel-side" class="panel">
+      <div class="panel-head"><span>INDICATORS</span><span class="panel-head-note" id="z-note">locked</span></div>
+      <div id="z-list" class="z-list"></div>
+
+      <div class="panel-head"><span>ENERGY</span></div>
+      <div class="energy-wrap">
+        <div class="energy-track"><div id="energy-bar" class="energy-bar"></div></div>
+        <span id="energy-val">72</span>
+      </div>
+
+      <div class="panel-head"><span>COMPLIANCE FILE</span></div>
+      <div id="hr-file" class="hr-file"></div>
+    </aside>
+
+    <section id="panel-week" class="panel">
+      <div class="week-head">
+        <div>
+          <div class="week-n" id="week-n">WEEK 1</div>
+          <div class="week-title" id="week-title">THE HANDOFF</div>
+        </div>
+        <div class="week-sub" id="week-sub">MOVE-IN · OPENING BELL</div>
+      </div>
+      <div class="week-brief" id="week-brief"></div>
+      <div id="memo-slot"></div>
+    </section>
+
+    <section id="panel-actions" class="panel">
+      <div class="panel-head"><span>ALLOCATE THE WEEK</span><span class="panel-head-note" id="slot-count">0 / 6</span></div>
+      <div id="slot-row" class="slot-row"></div>
+      <div id="action-grid" class="action-grid"></div>
+      <button id="btn-advance" class="btn btn-primary btn-block" disabled>FILL ALL SIX SLOTS</button>
+    </section>
+
+    <section id="panel-tape" class="panel">
+      <div class="panel-head"><span>THE TAPE</span></div>
+      <div id="tape" class="tape"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Overlay ─────────────────────────────────────────────────────────── -->
+<div id="overlay" class="overlay hidden">
+  <div class="overlay-card" id="overlay-card"></div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
