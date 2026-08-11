@@ -112,7 +112,7 @@ export function resolveWeek(state, picks) {
   // Carried consequences from last week's decisions.
   if (state.hangover > 0) {
     state.energy -= state.hangover;
-    tape.push({ kind: 'warn', text: `Energy gaps down ${state.hangover} on last week's all-nighter. It always comes out of next quarter.` });
+    tape.push({ kind: 'warn', text: `Energy gaps down ${state.hangover} on last week's unbroken study interval. It always comes out of next quarter.` });
     state.hangover = 0;
   }
 

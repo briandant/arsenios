@@ -103,7 +103,14 @@ Difficulty lives in three places:
 - **`TIERS`** in `data.js` — the closing-print thresholds for each coverage rating.
 
 Reference points from simulated play: optimized ≈ 5,900 (STRONG BUY), sensible ≈ 5,000
-(BUY), random ≈ 3,700 (UNDERWEIGHT), all-nighters-and-no-sleep ≈ 2,100 (DELISTED).
+(BUY), random ≈ 3,700 (UNDERWEIGHT), nothing-but-unbroken-study-intervals ≈ 2,100
+(DELISTED).
+
+Every activity in the unauthorized column is mechanically *worse* than its authorized
+counterpart — same paper, wrong typeface; same haircut, asked a question about it. What
+it buys instead is `FAITH` and energy, because doing one thing your own way is restorative
+in a way the Committee has no instrument for. That asymmetry is the balance. If you flatten
+it, compliance becomes strictly optimal and the game stops having an argument.
 
 ---
 

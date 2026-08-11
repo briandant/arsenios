@@ -17,7 +17,7 @@ export const CLASSES = {
   },
   unauthorized: {
     label: 'UNAUTHORIZED ACTIVITIES',
-    note: 'Prohibited. Compliance is forfeited. He is going to do some of these anyway.',
+    note: 'Prohibited by instrument. Compliance is forfeited. He is going to do some of these anyway.',
     color: '#e2504d',
   },
   unclassified: {
@@ -34,32 +34,41 @@ export const CLASSES = {
 
 export const ACTIONS = [
   // ── Authorized ───────────────────────────────────────────────────────────
+  // The correct procedure. Most of these are the sanctioned counterpart to
+  // something in the unauthorized column — the Committee does not forbid
+  // eating or dressing or noticing a tree, it specifies them.
   {
-    id: 'class', name: 'Go to Class', cls: 'authorized', slots: 1, energy: -8, vol: 0.3,
+    id: 'class', name: 'Attend Instruction, Seat 14C', cls: 'authorized', slots: 1, energy: -8, vol: 0.3,
     effects: { ACAD: 6, COMP: 3 },
-    desc: 'HCB 103, seat 14C, which is your seat per the seating instrument on file. Take notes by hand. Nothing happens, and nothing happening is the outcome the Committee is optimizing for.',
+    desc: 'HCB 103, seat 14C per the seating instrument on file. Continuous seat contact for the full fifty minutes, notes in blue or black only. Nothing happens, and nothing happening is the outcome the Committee has been optimizing toward since before he arrived.',
     note: 'Attendance logged. No surprises. The desk likes no surprises.',
-  },
-  {
-    id: 'eat', name: 'Eat Allocated Food', cls: 'authorized', slots: 1, energy: 5, vol: 0.1,
-    effects: { LIQ: 7, FIT: 1, SOC: -2, COMP: 4 },
-    desc: 'The tray, the rotation, the posted portion. Suwannee Room, second seating. There are no substitutions, and the Committee has asked that he stop inquiring about substitutions.',
-    note: 'Nutrition procured inside the meal instrument. Cheap, compliant, joyless.',
   },
   {
     id: 'soap', name: 'Requisition Soap Allotment', cls: 'authorized', slots: 1, energy: -2, vol: 0.1,
     effects: { COMP: 9, SOC: -3 },
-    desc: 'Standard Issue Compound No. 4. One bar, one signature, and one further signature confirming the first signature. He will smell exactly like the cohort, which is the entire point.',
+    desc: 'Standard Issue Compound No. 4. One bar, one signature, and one further signature confirming the first signature. He will smell exactly like the cohort, which is not a side effect of the policy but the entire specification.',
     note: 'Full olfactory conformity. Indistinguishable from peers at close range.',
   },
   {
-    id: 'laundry', name: 'Launder Uniform', cls: 'authorized', slots: 1, energy: -3, vol: 0.1,
+    id: 'uniform', name: 'Dress Per the Uniform Instrument', cls: 'authorized', slots: 1, energy: -3, vol: 0.1,
     effects: { SOC: 5, COMP: 6 },
-    desc: 'Basement machines, quarters only. Garnet and gold, fourteen pieces of institutional flair minimum, every piece inspectable. The Committee does not read the handbook aloud, but it does check.',
-    note: 'Unglamorous. Consistently accretive. The street ignores it.',
+    desc: 'Second button before the top button. Double bow on both shoes, tightened to a two-finger gap. Fourteen pieces of institutional flair minimum, every piece inspectable. The instrument runs to nine pages and he has read six of them.',
+    note: 'Unglamorous. Consistently accretive. The street ignores it entirely.',
   },
   {
-    id: 'officehours', name: 'Office Hours', cls: 'authorized', slots: 2, energy: -7, vol: 0.2,
+    id: 'haircut', name: 'Mandatory Hair Cut, Size 5 Clip', cls: 'authorized', slots: 1, energy: -3, vol: 0.2,
+    effects: { COMP: 8, SOC: -2 },
+    desc: 'Third chair, standard size 5 clip, eleven minutes, no requests accepted at the chair. He comes out looking like the four personnel who went before him, which the Committee would like on the record as the intended outcome.',
+    note: 'Silhouette standardized. Variance removed at the scalp.',
+  },
+  {
+    id: 'meatbox', name: 'Consume Company-Approved Meat Box', cls: 'authorized', slots: 1, energy: 5, vol: 0.1,
+    effects: { LIQ: 8, FIT: 2, SOC: -2, COMP: 4 },
+    desc: 'The box, the portion, the posted macros, second seating. There are no substitutions, and the Committee has asked that he stop submitting the substitution form, which does not exist and never did.',
+    note: 'Nutrition procured inside the instrument. Cheap, compliant, joyless.',
+  },
+  {
+    id: 'officehours', name: 'Office Hours, Door at Policy Width', cls: 'authorized', slots: 2, energy: -7, vol: 0.2,
     effects: { ACAD: 12, COMP: 4 },
     desc: 'Halloran keeps his door open to precisely the width policy specifies, and has a laminated card confirming the width. He will learn a great deal. It will cost him the afternoon.',
     note: 'Direct management access. Expensive in hours, cheap in everything else.',
@@ -67,14 +76,26 @@ export const ACTIONS = [
   {
     id: 'assembly', name: 'Mandatory Assembly', cls: 'authorized', slots: 2, energy: -10, vol: 0.2,
     effects: { COMP: 11, SOC: -4, ACAD: 1 },
-    desc: 'Union ballroom, ninety minutes, a slide deck titled OUR SHARED VALUES running to forty-one slides. Attendance is taken twice: once at the start, once at a randomized interior moment.',
+    desc: 'Union ballroom, ninety minutes, a slide deck titled OUR SHARED VALUES running to forty-one slides. Attendance is taken twice: once at the top, and once at a randomized interior moment.',
     note: 'Zero economic content. Enormous compliance content. The Committee sees you.',
   },
   {
-    id: 'selfassess', name: 'File Self-Assessment', cls: 'authorized', slots: 1, energy: -6, vol: 0.2,
-    effects: { COMP: 8, ACAD: 3 },
-    desc: 'One page on his own performance, evaluated against a rubric he is not permitted to see. Familiarity with the rubric has been found to distort the assessments.',
-    note: 'He grades himself, they grade the grading. Compliance accrues either way.',
+    id: 'paper', name: 'Draft the Assigned Topic in Roboto 11', cls: 'authorized', slots: 2, energy: -9, vol: 0.3,
+    effects: { ACAD: 8, COMP: 5 },
+    desc: 'Roboto 11, spacing at 1.15, on the topic he was issued. Evaluated against a rubric he is not permitted to see — familiarity with the rubric has been found to distort the drafts.',
+    note: 'Elegant instrument. He writes the paper, they grade the formatting.',
+  },
+  {
+    id: 'ta85', name: 'Log Skills to the TA-85', cls: 'authorized', slots: 1, energy: -5, vol: 0.2,
+    effects: { ACAD: 4, COMP: 7 },
+    desc: 'Every competency acquired this week, entered on the TA-85 in the order acquired, no blank fields. The terminal accepts skills. It has no field for who helped him get one, and no field for how it felt.',
+    note: 'Self-reported competency, machine-readable. The only kind that counts.',
+  },
+  {
+    id: 'nature', name: 'Nature Observation, Fifteen Minutes', cls: 'authorized', slots: 1, energy: 4, vol: 0.1,
+    effects: { FAITH: 3, COMP: 4, FIT: 1 },
+    desc: 'The allotted quarter hour on Landis Green, timed from the bench. Wonder is authorized between 4:15 and 4:30. At 4:30 he is expected to stand up, and he stands up.',
+    note: 'Authorized awe. It counts for something. It does not count for much.',
   },
   {
     id: 'gym', name: 'Wellness Initiative', cls: 'authorized', slots: 1, energy: -6, vol: 0.5,
@@ -89,13 +110,13 @@ export const ACTIONS = [
     note: 'Peer network expanding. Idea quality unverified.',
   },
   {
-    id: 'sleep', name: 'Scheduled Recovery Interval', cls: 'authorized', slots: 1, energy: 15, vol: 0.1,
+    id: 'sleep', name: 'Synchronized Recovery Interval', cls: 'authorized', slots: 1, energy: 15, vol: 0.1,
     effects: { FIT: 2, COMP: 2 },
     desc: 'Eight hours, taken Tuesday, per his assigned interval. Rest inside the interval is rest. Rest outside the interval is something else, and is logged as something else.',
     note: 'The cheapest alpha on the board and nobody takes it.',
   },
   {
-    id: 'allnighter', name: 'All-Nighter', cls: 'authorized', slots: 3, energy: -26, vol: 2.2,
+    id: 'allnighter', name: 'Extended Study Interval, Unbroken', cls: 'authorized', slots: 3, energy: -26, vol: 2.2,
     effects: { ACAD: 17, FIT: -5, COMP: 3 },
     hangover: true,
     desc: 'Strozier until it closes, then the 24-hour room until it is light out. The Committee approves of this without reservation or caveat, which should tell him something and does not.',
@@ -103,50 +124,79 @@ export const ACTIONS = [
   },
 
   // ── Unauthorized ─────────────────────────────────────────────────────────
+  // Every one of these is smaller than a shoelace and every one of them is
+  // filed. That is the finding. The compliance cost scales with how much of
+  // himself the deviation required, not with any harm anybody can name.
   {
-    id: 'skip', name: 'Skip Class', cls: 'unauthorized', slots: 1, energy: 12, vol: 3.0,
-    effects: { ACAD: -8, SOC: 4, COMP: -7 },
-    desc: 'The seat sensor in 14C registers the vacancy within ninety seconds. Landis Green is seventy-four degrees, he is nineteen, and the sensor is going to have to find a way to live with that.',
-    note: 'Subject absent without filing. Volatility elevated. Wick extends both directions.',
+    id: 'singlebow', name: 'Tie Shoes With a Single Bow', cls: 'unauthorized', slots: 1, energy: 3, vol: 0.4,
+    effects: { FAITH: 4, SOC: 2, COMP: -8 },
+    desc: 'One loop instead of two, on the left shoe only, at 7:40 in the morning because he was thinking about something else. The instrument specifies double. He was stopped in the stairwell and asked whether everything was alright.',
+    note: 'Footwear nonconformity, single instance. Logged at the stairwell.',
   },
   {
-    id: 'chickfila', name: 'Order Unauthorized Chick-fil-A', cls: 'unauthorized', slots: 1, energy: 9, vol: 0.8,
-    effects: { SOC: 9, LIQ: -7, FIT: -3, COMP: -11 },
-    desc: 'Not on the posted rotation. Procured outside the meal instrument via a sophomore with a car and a markup. Worth it. Closed Sundays, which he has come to regard as a shared theological position.',
-    note: 'Off-instrument procurement. Morale up, margin down, Committee notified.',
+    id: 'topbutton', name: 'Button the Top Button First', cls: 'unauthorized', slots: 1, energy: 2, vol: 0.4,
+    effects: { FAITH: 4, SOC: 1, COMP: -8 },
+    desc: 'The company shirt, buttoned from the collar downward instead of from the second button up. Same shirt. Same buttons. Same boy inside it. The sequence is the part that was specified.',
+    note: 'Sequence violation. Garment identical. The Committee is not interested in the garment.',
   },
   {
-    id: 'discourse', name: 'Unauthorized Discourse w/ Opposite Sex', cls: 'unauthorized', slots: 1, energy: 8, vol: 1.0,
-    effects: { SOC: 14, FAITH: 2, COMP: -10 },
-    desc: 'Third floor of Strozier, forty minutes, about nothing in particular. No form was filed, because there is no form, though the Committee has indicated a form is coming. He has thought about it every day since.',
-    note: 'Unlogged interpersonal exposure. The desk has no model for this and is fine with that.',
+    id: 'ramenraw', name: 'Cook Ramen Without the Packet', cls: 'unauthorized', slots: 1, energy: 2, vol: 0.5,
+    effects: { LIQ: 11, FIT: -3, SOC: 3, COMP: -5 },
+    desc: 'Eleven cents a serving if you buy the case, and he bought the case. He leaves out the company-approved vitamins and minerals packet because it tastes like a filing cabinet. Nutritionally this is a downgrade and he is aware it is a downgrade.',
+    note: 'Off-instrument preparation. Margin intact, micronutrients not.',
   },
   {
-    id: 'nap', name: 'Unsanctioned Nap', cls: 'unauthorized', slots: 1, energy: 16, vol: 0.3,
-    effects: { FIT: 1, COMP: -8 },
-    desc: 'Ninety minutes, Wednesday, squarely outside the assigned interval. Restorative, unlogged, and in direct contravention of the Synchronized Recovery Interval memorandum.',
-    note: 'Energy recovered off-schedule. Restorative. Technically an infraction.',
+    id: 'glp1', name: 'Take a GLP-1 With Oatmeal', cls: 'unauthorized', slots: 1, energy: 2, vol: 0.8,
+    effects: { FIT: 6, LIQ: -4, COMP: -11 },
+    desc: 'Prescribed, filled, and taken at 6 a.m. with oatmeal instead of alongside the company-approved meat box as the metabolic protocol directs. The protocol cites no study. He has looked for the study.',
+    note: 'Deviation from the metabolic instrument. Outcome improved, filing worsened.',
   },
   {
-    id: 'ownsoap', name: 'Use Personal Soap', cls: 'unauthorized', slots: 1, energy: 5, vol: 0.4,
-    effects: { FAITH: 3, SOC: 4, COMP: -15 },
-    desc: 'His own bar, from home, the one his mother packed. He smells like himself for one day. The Committee regards olfactory individuation as the single most serious violation available to an undergraduate.',
-    note: 'Deliberate variance reintroduced. Maximum compliance penalty on the board.',
+    id: 'arial', name: 'Draft the Paper in Arial', cls: 'unauthorized', slots: 2, energy: -7, vol: 0.9,
+    effects: { ACAD: 6, SOC: 2, COMP: -13 },
+    desc: 'Eleven pages, argued properly, cited properly, set in Arial. The Committee has standardized on Roboto and has issued no reasoning for it, and he has now read that memorandum four times looking for the reasoning.',
+    note: 'Content compliant. Typeface noncompliant. Only one of those gets graded.',
   },
   {
-    id: 'uniformdev', name: 'Deviate from Uniform', cls: 'unauthorized', slots: 1, energy: 4, vol: 0.6,
-    effects: { SOC: 8, COMP: -12 },
-    desc: 'One shirt that is neither garnet nor gold and was not approved. Eleven pieces of flair, three short of the posted minimum. He was stopped twice and asked whether everything was alright.',
-    note: 'Visual nonconformity. Reads as confidence to peers, as a data point to the Committee.',
+    id: 'lendsoap', name: 'Lend the Soap Allotment to an Infidel', cls: 'unauthorized', slots: 1, energy: 4, vol: 0.5,
+    effects: { FAITH: 4, SOC: 6, COMP: -15 },
+    desc: 'A boy on the third floor who is not enrolled, not personnel, and not carried anywhere on the roster. He needed a bar. Arsenios had a bar. The Committee has a word for the boy and the word is in the handbook.',
+    note: 'Allotment diverted off-roster. Largest compliance penalty on the board.',
   },
   {
-    id: 'party', name: 'Party', cls: 'unauthorized', slots: 2, energy: -13, vol: 2.5,
-    effects: { SOC: 13, ACAD: -3, COMP: -9, LIQ: -5 },
-    desc: 'A house off Ocala with a garnet flag over the window and a speaker somebody’s brother left behind. Undocumented, unchaperoned, and attended by roughly forty people the Committee cannot account for.',
-    note: 'Large single-period social accretion. Historically followed by a gap down.',
+    id: 'scissors', name: 'Request Scissors at the Hair Cut', cls: 'unauthorized', slots: 1, energy: 5, vol: 1.0,
+    effects: { SOC: 7, FAITH: 3, COMP: -14 },
+    desc: 'He asks, from the chair, politely, whether it could be done with scissors this once instead of the standard size 5 clip. The barber does not look up. Two personnel in the waiting row do.',
+    note: 'Verbal request on the record. Nothing was cut differently. Everything was noted.',
+  },
+  {
+    id: 'congratulate', name: 'Congratulate a Friend on a TA-85 Skill', cls: 'unauthorized', slots: 1, energy: 8, vol: 0.8,
+    effects: { SOC: 14, FAITH: 3, COMP: -10 },
+    desc: 'The TA-85 posts what everybody logged. He sees a name he knows beside a competency that was genuinely hard, and he says out loud that it is good work. The terminal has no field for that, and the Committee regards unlogged affirmation as an inefficiency.',
+    note: 'Unlogged interpersonal exposure. Largest social print available.',
+  },
+  {
+    id: 'owntopic', name: 'Reflect on Choosing His Own Topic', cls: 'unauthorized', slots: 1, energy: 6, vol: 0.7,
+    effects: { FAITH: 8, ACAD: 3, COMP: -12 },
+    desc: 'Four minutes on the walk back, spent wondering what it might be like to choose his own paper topic one day. He did not choose one. He did not write anything down. He thought about it, and the thinking is the part that is prohibited.',
+    note: 'No action taken. Interior deviation only. The Committee has begun tracking interiors.',
+  },
+  {
+    id: 'overnature', name: 'Nature Beyond the Allotment', cls: 'unauthorized', slots: 1, energy: 9, vol: 0.6,
+    effects: { FAITH: 10, FIT: 2, COMP: -10 },
+    desc: 'He stays on the bench past 4:30. The light is doing something on the brick that there is no form for. Twenty-two unauthorized minutes, which is longer than the fifteen he was allotted, which is the entire finding.',
+    note: 'Awe accrued outside the window. The desk has no model for it and is at peace with that.',
+  },
+  {
+    id: 'butterfly', name: 'Follow a Butterfly Past Seven Seconds', cls: 'unauthorized', slots: 1, energy: 11, vol: 0.5,
+    effects: { FAITH: 12, SOC: -1, COMP: -9 },
+    desc: 'It comes past the bench and he watches it for nineteen seconds. Seven is the threshold in the ocular-attention memorandum and he knows the number. He counted. Then he kept going.',
+    note: 'Sustained attention to an unassigned object. Largest faith print on the board.',
   },
 
   // ── Unclassified ─────────────────────────────────────────────────────────
+  // Reviewed, repeatedly, and never successfully sorted. These are the lines
+  // with no counterparty — nobody is grading them and nobody made him do them.
   {
     id: 'liturgy', name: 'Divine Liturgy', cls: 'unclassified', slots: 2, energy: 6, vol: 0.1,
     effects: { FAITH: 13, SOC: 3 },
@@ -161,17 +211,17 @@ export const ACTIONS = [
     note: 'Small, positive, and the only line here with no counterparty risk.',
   },
   {
+    id: 'dadtext', name: 'Answer Dad’s Text', cls: 'unclassified', slots: 1, energy: 6, vol: 0.1,
+    effects: { FAITH: 3, SOC: 3 },
+    desc: 'Three messages over eleven minutes, because he scrolls and types with the same pointer finger and will not be told anything about it. One of the three is a thumbs up with no context. Arsenios writes back properly, in full sentences, and does not mention the finger.',
+    note: 'Nobody made him write back in full sentences. He did that on his own.',
+  },
+  {
     id: 'book', name: 'Read the Candlestick Book', cls: 'unclassified', slots: 2, energy: -5, vol: 0.2,
     effects: { ACAD: 5, FAITH: 1 },
     unlocksPatterns: true,
-    desc: 'Nison, dog-eared, the first forty pages read four times. Nobody assigned it and nobody is grading it. He is doing it because he wants to, which the Committee has found difficult to process.',
+    desc: 'Nison, dog-eared, the first forty pages read four times. Nobody assigned it, nobody is grading it, and it is not set in Roboto. He is doing it because he wants to, which the Committee has found difficult to process.',
     note: 'Analytical coverage improving. Formations will now be labeled on the tape.',
-  },
-  {
-    id: 'ramen', name: 'Ramen Night', cls: 'unclassified', slots: 1, energy: 2, vol: 0.3,
-    effects: { LIQ: 11, FIT: -3, SOC: 3 },
-    desc: 'Eleven cents a serving if you buy the case, and he bought the case. Procured outside the meal instrument but too cheap for the Committee to object to on principle.',
-    note: 'Margin expansion via cost discipline. Nutritional footnote omitted.',
   },
   {
     id: 'coffee', name: 'Coffee', cls: 'unclassified', slots: 1, energy: 11, vol: 0.6,
@@ -207,13 +257,15 @@ export const DESK = [
     seat: { hair: 'slick', prop: 'phone', vest: '#782f40', tone: '#dcc9a2' },
     affinity: { authorized: 0, unauthorized: 2, unclassified: 0.5 },
     on: {
-      party: [`A house off Ocala and forty people the Committee can't account for. That is called a catalyst.`],
-      chickfila: [`Off-instrument, marked up by a sophomore with a car, closed Sundays. Best desk in the South.`],
+      congratulate: [`He said it OUT LOUD. To a person. Unlogged. That is the trade, that is the whole trade.`],
+      butterfly: [`Nineteen seconds on a butterfly. Nineteen. That is conviction and I will not be hearing otherwise.`],
+      scissors: [`He asked for the scissors. From the chair. In front of people. I have goosebumps.`],
+      lendsoap: [`Gave his bar away to a kid who is not even on the roster. Enormous. Uncoverable. Love it.`],
+      overnature: [`Stayed on the bench past the bell because the light was doing something. Size it up.`],
       allnighter: [`Iron man. Absolute iron man. He is going to feel that in about nine days.`],
-      skip: [`Seventy-four degrees on Landis Green. The seat sensor can eat it.`],
       coffee: [`That's my guy. A man with a plan and no sleep.`],
-      discourse: [`He TALKED to her. Forty minutes. Somebody get me a pen, I want to be part of this.`],
       soap: [`We are seriously spending a slot on soap.`],
+      haircut: [`Size 5. Same as everybody. Very memorable. Truly one of the haircuts.`],
     },
     lines: {
       unauthorized: [
@@ -222,6 +274,7 @@ export const DESK = [
         `Print it. Print it before Brayden finishes typing.`,
         `This entire floor is underweight fun and I'm the only one who'll say it out loud.`,
         `Yes. Whatever that was, more of that.`,
+        `Every line on this side of the board is a kid deciding one thing for himself. Bid all of it.`,
       ],
       authorized: [
         `Sure. Safe. Very Tuesday.`,
@@ -265,10 +318,15 @@ export const DESK = [
     on: {
       soap: [`Compound No. 4. One bar, two signatures. I'm not going to pretend I'm not moved.`],
       assembly: [`Forty-one slides and attendance taken twice. Zero economic content. Enormous compliance content.`],
-      ownsoap: [`He smells like HIMSELF. Do you understand what has just happened here?`],
-      uniformdev: [`Eleven pieces. ELEVEN. Three short of the posted minimum, in transit, at meals —`],
-      selfassess: [`Graded against a rubric he is not permitted to see. Beautiful instrument. Genuinely elegant.`],
-      nap: [`Outside the assigned interval. That is not rest. That is something else and it is logged as something else.`],
+      lendsoap: [`Off-roster diversion of a hygiene allotment to an infidel. I am going to need a bigger form.`],
+      singlebow: [`One loop. ONE. On the left shoe. There is a stairwell log and his name is in the stairwell log.`],
+      topbutton: [`He buttoned it from the collar DOWN. The garment is fine. The garment was never the point.`],
+      arial: [`Arial. He set eleven good pages in Arial. It will not be read. It cannot be read.`],
+      scissors: [`He asked at the chair. Out loud. Two personnel in the waiting row heard him ask.`],
+      uniform: [`Second button first, double bow, two-finger gap. Nine pages in the instrument and he cleared nine.`],
+      ta85: [`Logged in order of acquisition, no blank fields. This is what a good week looks like.`],
+      paper: [`Roboto 11 against a rubric he is not permitted to see. Beautiful instrument. Genuinely elegant.`],
+      haircut: [`Third chair, size 5, no request submitted. Textbook. I would put him in the newsletter.`],
       class: [`Seat 14C, continuous seat contact, no lean. Textbook.`],
     },
     lines: {
@@ -284,6 +342,7 @@ export const DESK = [
         `That's a warning. A warning, and a note, and the note does not come back out.`,
         `He has a permanent file. I have seen a permanent file. It is a real folder in a real drawer.`,
         `The Committee is going to have questions and I am going to have answers.`,
+        `The instrument is nine pages long. Nine. At no point in nine pages is it ambiguous.`,
       ],
       unclassified: [
         `Unclassified is not the same thing as approved. I've asked them to close that gap.`,
@@ -311,6 +370,12 @@ export const DESK = [
       book: [`He is teaching himself the thing I have a degree in, ahead of schedule, for free.`],
       liturgy: [`I cannot model it. It shows up as a floor under his drawdowns and I have no variable for why.`],
       officehours: [`Two slots for twelve academics. The math is fine. The math has always been fine.`],
+      butterfly: [`Largest faith print on the board, one slot, nineteen seconds. Somebody minute that.`],
+      glp1: [`The protocol cites no study. I went looking for the study. There is no study.`],
+      owntopic: [`Nothing left his head. He acted on none of it. The penalty is identical, which tells you what is actually being measured.`],
+      ramenraw: [`Eleven cents and no packet. Margin intact, micronutrients gone. Both of those are real numbers.`],
+      arial: [`Same argument, same citations, different typeface. One of those three was graded.`],
+      ta85: [`The terminal has a field for the skill and no field for who taught it to him. I have raised this.`],
     },
     lines: {
       oversold: [
@@ -352,10 +417,14 @@ export const DESK = [
     on: {
       allnighter: [`He is pulling that out of next quarter. It always comes out of next quarter.`],
       callmom: [`Call the mother. I don't have a model for it and I stopped looking for one.`],
+      dadtext: [`Full sentences. To a man who scrolls with the same finger he types with. Nobody made him do that.`],
       liturgy: [`Two hours, no chairs, no phone. Only line on this board with no counterparty.`],
-      ramen: [`Eleven cents a serving if you buy the case. I bought the case. I'd buy it again.`],
-      discourse: [`Forty minutes about nothing on the third floor of a library. That's the one he remembers.`],
-      laundry: [`Unglamorous, accretive, completely ignored by the street. Whole career in one slot.`],
+      ramenraw: [`Eleven cents a serving if you buy the case. I bought the case. I left the packet out too.`],
+      overnature: [`He stayed on the bench past the bell. Thirty years on this desk and that is the only line I have ever envied.`],
+      butterfly: [`Seven seconds is the threshold. He knew the number, he counted, and he kept going. Good.`],
+      owntopic: [`Four minutes wondering whether he could pick his own topic. They wrote it up. I have watched firms die of that.`],
+      congratulate: [`He told a man his work was good. There is no field for it, which is how you know it counted.`],
+      uniform: [`Unglamorous, accretive, completely ignored by the street. Whole career in one slot.`],
     },
     lines: {
       stretched: [
@@ -369,6 +438,7 @@ export const DESK = [
       unauthorized: [
         `Go ahead. It'll cost him and it will not sink him. Learning that difference is most of what nineteen is for.`,
         `I have never once seen the file matter as much as the man holding it believes it does.`,
+        `Every one of these is the size of a shoelace and they file every single one. That is the part to notice.`,
       ],
       unclassified: [
         `Nobody is grading that one. That's usually the one that turns out to have been the point.`,
@@ -395,7 +465,13 @@ export const DESK = [
       book: [`He's reading Nison on his own time. Nobody assigned that. Nobody's grading it.`],
       club: [`Nine guys pitching the same three tickers. He pitched a fourth one. It wasn't bad.`],
       coffee: [`Oh — I can get that. I'll get that.`],
-      eat: [`Second seating, posted portion, no substitutions. I asked about substitutions once.`],
+      meatbox: [`Second seating, posted portion, no substitutions. I asked about substitutions once.`],
+      nature: [`Four fifteen to four thirty. I put it in my calendar so I don't forget to feel it.`],
+      congratulate: [`Wait — you're allowed to just say that to someone? Out loud? While they're there?`],
+      arial: [`Is Arial the bad one? I can never remember which one's the bad one.`],
+      ta85: [`I log mine every Friday. Nobody has ever said anything to me about them.`],
+      dadtext: [`My dad does the finger thing too. I've never mentioned it either.`],
+      singlebow: [`I check my own shoes like four times a day now. Is that normal? That's probably not normal.`],
     },
     lines: {
       unclassified: [
@@ -462,7 +538,8 @@ export const WEEKS = [
         `Effective immediately, all personnel will use Standard Issue Compound No. 4, available at the ` +
         `Assistant Dean's window during the posted forty minutes. Personal soap introduces olfactory ` +
         `variance into shared learning environments. Variance is noise. We are removing noise. ` +
-        `Requisition weekly. We are one desk.`,
+        `The allotment is issued to the individual and is not transferable to any person outside the ` +
+        `roster. Requisition weekly. We are one desk.`,
       requires: 'soap',
     },
   },
@@ -501,7 +578,7 @@ export const WEEKS = [
         `Students will display no fewer than fourteen approved garnet-and-gold institutional accessories ` +
         `at all times, including in transit and at meals. Fourteen is the minimum. Some students choose to ` +
         `express more than the minimum. We notice which ones.`,
-      requires: 'laundry',
+      requires: 'uniform',
     },
   },
   {
@@ -626,7 +703,7 @@ export const WEEKS = [
       body:
         `Revision 3 has been withdrawn. Personnel who complied with Revision 3 are now out of compliance. ` +
         `This is not retroactive, except in the cases where it is. A list of those cases is being compiled.`,
-      requires: 'laundry',
+      requires: 'uniform',
     },
   },
   {
