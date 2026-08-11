@@ -44,6 +44,17 @@ ceiling on how much compliance you can ever recover — the file follows him.
 
 You can defy the Committee. It costs real points and it will not sink you.
 
+**The desk.** Five sell-side analysts sit behind the six slots — the surface they are
+working at is the top edge of the row you are allocating. Fill a slot and an order ticket
+leaves the card, lands in the slot, and whichever of them cares most about what you just
+did says something about it. Chad wants size. Brayden has already written it down. Priya
+is quoting the actual z-score and being ignored. Mitch has been on this desk for thirty
+years. Trey agrees with whoever spoke last.
+
+Nobody on that desk is a game mechanic. They are the only part of the terminal that
+reacts to a single slot rather than a whole week, and they are how you find out that the
+liturgy has no counterparty and the recovery interval is the cheapest alpha on the board.
+
 **The z-index.** The six components render as stacked translucent layers over the
 candles, and you reorder them freely — the layer panel is a literal z-index control.
 Whichever layer is in **front** at the closing bell decides which of the six endings
@@ -71,9 +82,10 @@ The code is deliberately split so the writing lives apart from the machinery.
 | File | What's in it |
 |---|---|
 | `js/config.js` | Names, ticker, school, week count, slot count, per-component decay rates and starting values |
-| `js/data.js` | **All the writing.** Actions and their descriptions, the fifteen-week calendar, the faculty, every memorandum, the candlestick patterns, the endings |
+| `js/data.js` | **All the writing.** Actions and their descriptions, the fifteen-week calendar, the faculty, every memorandum, the five analysts and everything they say, the candlestick patterns, the endings |
 | `js/engine.js` | Simulation: weekly resolution, z-scores, candle construction, compliance, scoring |
 | `js/chart.js` | Canvas renderer — candles, volume, moving averages, the stacked component layers |
+| `js/desk.js` | The analysts: who talks, how they're drawn, and the order-ticket animation |
 | `js/ui.js` | DOM rendering and the overlays |
 | `js/main.js` | State ownership and event wiring |
 

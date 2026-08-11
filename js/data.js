@@ -183,6 +183,245 @@ export const ACTIONS = [
 
 export const ACTION_MAP = Object.fromEntries(ACTIONS.map((a) => [a.id, a]));
 
+// ── The desk ───────────────────────────────────────────────────────────────
+// Five analysts cover $ARSN and no two of them agree about anything. Fill a
+// slot and one of them says something about it. WHO talks is decided in
+// desk.js by who cares most about what you just did; WHAT they say is all
+// down here, which means this stays the only file you edit to change a joke.
+//
+//   seat       how the silhouette is drawn — hair, prop, vest, phosphor tone
+//   affinity   how much this analyst cares about each classification, 0–2
+//   on         bespoke lines for one specific action. Always beats a bucket.
+//   lines      the buckets. oversold/stretched/required/tired only fire when
+//              that mechanic is actually live this week. `any` is the floor.
+//
+// Tokens available in any line:
+//   {stat}  the component under discussion      {action}  what you just picked
+//   {z}     its live z-score, formatted         {last}    who spoke before you
+
+export const DESK = [
+  {
+    id: 'chad',
+    name: 'CHAD RUTHERFORD IV',
+    desk: 'MOMENTUM',
+    seat: { hair: 'slick', prop: 'phone', vest: '#782f40', tone: '#dcc9a2' },
+    affinity: { authorized: 0, unauthorized: 2, unclassified: 0.5 },
+    on: {
+      party: [`A house off Ocala and forty people the Committee can't account for. That is called a catalyst.`],
+      chickfila: [`Off-instrument, marked up by a sophomore with a car, closed Sundays. Best desk in the South.`],
+      allnighter: [`Iron man. Absolute iron man. He is going to feel that in about nine days.`],
+      skip: [`Seventy-four degrees on Landis Green. The seat sensor can eat it.`],
+      coffee: [`That's my guy. A man with a plan and no sleep.`],
+      discourse: [`He TALKED to her. Forty minutes. Somebody get me a pen, I want to be part of this.`],
+      soap: [`We are seriously spending a slot on soap.`],
+    },
+    lines: {
+      unauthorized: [
+        `There it is. That's the trade.`,
+        `Nobody ever got paid for the week they didn't take.`,
+        `Print it. Print it before Brayden finishes typing.`,
+        `This entire floor is underweight fun and I'm the only one who'll say it out loud.`,
+        `Yes. Whatever that was, more of that.`,
+      ],
+      authorized: [
+        `Sure. Safe. Very Tuesday.`,
+        `Cool. Let me know how the soap trades.`,
+        `You cannot grind your way into a story, man.`,
+        `Filed, logged, approved, boring. Four words, one week.`,
+      ],
+      unclassified: [
+        `I don't know what bucket that's in and I don't get paid to know.`,
+        `Is that a trade? That doesn't feel like a trade.`,
+      ],
+      oversold: [
+        `SIZE IT UP. Size it up, size it up, size it —`,
+        `{stat} is on the floor and you're asking me whether we buy. Obviously we buy.`,
+      ],
+      stretched: [
+        `I don't know what a sigma is and I am up on the year.`,
+        `Priya says it unwinds. Priya says a lot of things.`,
+      ],
+      printUp: [
+        `THAT is the tape I have been telling you about since August.`,
+        `Green week. Somebody put me on the record as early.`,
+      ],
+      printDown: [
+        `One week. Noise. Zoom out.`,
+        `We're long the kid. Nothing about that has changed.`,
+      ],
+      any: [
+        `Love it. Didn't read it. Love it.`,
+        `Whatever this is, we're long the kid.`,
+      ],
+    },
+  },
+
+  {
+    id: 'brayden',
+    name: 'BRAYDEN COLE',
+    desk: 'COMPLIANCE COVERAGE',
+    seat: { hair: 'part', prop: 'headset', vest: '#2b3a52', tone: '#c6cdd8' },
+    affinity: { authorized: 2, unauthorized: 1.6, unclassified: 0 },
+    on: {
+      soap: [`Compound No. 4. One bar, two signatures. I'm not going to pretend I'm not moved.`],
+      assembly: [`Forty-one slides and attendance taken twice. Zero economic content. Enormous compliance content.`],
+      ownsoap: [`He smells like HIMSELF. Do you understand what has just happened here?`],
+      uniformdev: [`Eleven pieces. ELEVEN. Three short of the posted minimum, in transit, at meals —`],
+      selfassess: [`Graded against a rubric he is not permitted to see. Beautiful instrument. Genuinely elegant.`],
+      nap: [`Outside the assigned interval. That is not rest. That is something else and it is logged as something else.`],
+      class: [`Seat 14C, continuous seat contact, no lean. Textbook.`],
+    },
+    lines: {
+      authorized: [
+        `Clean. Filed. Signature on file. This is what a good week is supposed to look like.`,
+        `The sensor logged that. Free data point in his favor, and I do mean free.`,
+        `Fourteen pieces of flair is the floor, not the target. I would be at sixteen.`,
+        `I want to say something here and it's just: correct. That was correct.`,
+      ],
+      unauthorized: [
+        `I am going to have to write that down.`,
+        `Noting for the record that I flagged this in advance.`,
+        `That's a warning. A warning, and a note, and the note does not come back out.`,
+        `He has a permanent file. I have seen a permanent file. It is a real folder in a real drawer.`,
+        `The Committee is going to have questions and I am going to have answers.`,
+      ],
+      unclassified: [
+        `Unclassified is not the same thing as approved. I've asked them to close that gap.`,
+        `Nothing to log. I hate having nothing to log.`,
+      ],
+      required: [
+        `Memorandum satisfied. That's the job. That is the entire job.`,
+        `Compliance scheduled. Nobody thanks you for this one and you do it anyway.`,
+      ],
+      printUp: [`Zero infractions in the period. I'd like that in the writeup.`],
+      printDown: [`The print is the print. The file is what follows him.`],
+      any: [`Is this in the handbook? I would like to check the handbook.`],
+    },
+  },
+
+  {
+    id: 'priya',
+    name: 'PRIYA VENKATARAMAN',
+    desk: 'QUANTITATIVE',
+    seat: { hair: 'pony', prop: 'headset', vest: '#33434a', tone: '#a6cfd6' },
+    affinity: { authorized: 1, unauthorized: 0.6, unclassified: 1 },
+    on: {
+      sleep: [`Fifteen energy for one slot. Cheapest alpha on the board and it goes unbought every single week.`],
+      gym: [`Check the z before you add to a crowded line. Please. One time.`],
+      book: [`He is teaching himself the thing I have a degree in, ahead of schedule, for free.`],
+      liturgy: [`I cannot model it. It shows up as a floor under his drawdowns and I have no variable for why.`],
+      officehours: [`Two slots for twelve academics. The math is fine. The math has always been fine.`],
+    },
+    lines: {
+      oversold: [
+        `{stat} is at {z}. Anything you put there right now pays one and three quarters. That's arithmetic, not a view.`,
+        `{z} on {stat}. This is the cheapest thing on the board and it will not be cheap next week.`,
+        `Two sigma below its own mean. I circulated a note. Nobody opened the note.`,
+      ],
+      stretched: [
+        `{stat} at {z}. It unwinds next week. Not because I want it to.`,
+        `You are four standard deviations of confidence into a two-sigma position.`,
+        `Stretched is not the same as strong. I will keep saying it until it lands.`,
+      ],
+      authorized: [
+        `Boring. Boring is the highest-Sharpe line on this board and nobody ever wants it.`,
+        `Smooth accumulation wins the year. It has won every year I have measured.`,
+      ],
+      unauthorized: [
+        `Fine on the mean, bad on the variance. Those are two different problems.`,
+        `That widens the range. Wide ranges are how a good year becomes an anecdote.`,
+      ],
+      unclassified: [
+        `Uncorrelated to everything else on the board. That is worth more than the points are.`,
+      ],
+      printUp: [`Up on lower variance than last week. That is the part that matters and nobody will mention it.`],
+      printDown: [`Down, inside one sigma. This is a normal week. It only feels like a verdict.`],
+      any: [
+        `I would like the record to show what the number was when we did this.`,
+        `Six lines, one index. Concentration is the only real risk in here.`,
+      ],
+    },
+  },
+
+  {
+    id: 'mitch',
+    name: 'MITCH HALVORSEN',
+    desk: 'THIRTY YEARS ON THIS DESK',
+    seat: { hair: 'thin', prop: 'coffee', glasses: true, vest: '#4a4436', tone: '#cec5b0' },
+    affinity: { authorized: 0.8, unauthorized: 1, unclassified: 1.4 },
+    on: {
+      allnighter: [`He is pulling that out of next quarter. It always comes out of next quarter.`],
+      callmom: [`Call the mother. I don't have a model for it and I stopped looking for one.`],
+      liturgy: [`Two hours, no chairs, no phone. Only line on this board with no counterparty.`],
+      ramen: [`Eleven cents a serving if you buy the case. I bought the case. I'd buy it again.`],
+      discourse: [`Forty minutes about nothing on the third floor of a library. That's the one he remembers.`],
+      laundry: [`Unglamorous, accretive, completely ignored by the street. Whole career in one slot.`],
+    },
+    lines: {
+      stretched: [
+        `Four weeks running on the same line. I watched a man do that once. He had a shoulder afterward.`,
+        `Everything returns to its average. Everything. You can be early or you can be right.`,
+      ],
+      tired: [
+        `He's running on fumes and the tape hasn't priced it yet. It will.`,
+        `Kid's cooked. You can spend a nineteen-year-old all the way down and he will let you do it.`,
+      ],
+      unauthorized: [
+        `Go ahead. It'll cost him and it will not sink him. Learning that difference is most of what nineteen is for.`,
+        `I have never once seen the file matter as much as the man holding it believes it does.`,
+      ],
+      unclassified: [
+        `Nobody is grading that one. That's usually the one that turns out to have been the point.`,
+      ],
+      authorized: [
+        `Unglamorous, accretive, ignored. That's most of a career, if you want the truth of it.`,
+      ],
+      printUp: [`Good week. Don't build a thesis on it. Build it on the next eleven.`],
+      printDown: [`He is better than that print. Week seven is on everybody's chart somewhere.`],
+      any: [
+        `Long time on this desk. This is the part where it stops being an adventure.`,
+        `Fifteen weeks. Everybody's chart has a bad one in it. His is coming or it already came.`,
+      ],
+    },
+  },
+
+  {
+    id: 'trey',
+    name: 'TREY',
+    desk: 'INTERN',
+    seat: { hair: 'cap', prop: 'phone', vest: '#54455c', tone: '#c2bacd' },
+    affinity: { authorized: 0.5, unauthorized: 0.5, unclassified: 2 },
+    on: {
+      book: [`He's reading Nison on his own time. Nobody assigned that. Nobody's grading it.`],
+      club: [`Nine guys pitching the same three tickers. He pitched a fourth one. It wasn't bad.`],
+      coffee: [`Oh — I can get that. I'll get that.`],
+      eat: [`Second seating, posted portion, no substitutions. I asked about substitutions once.`],
+    },
+    lines: {
+      unclassified: [
+        `Nobody's covering this one. That's usually where the good stuff is. Right?`,
+        `This isn't on any of the sheets. I checked twice. I checked three times.`,
+        `So where does this go in the model? Is there a column for it?`,
+      ],
+      // Trey's real function on this desk. Fires as a second bubble after
+      // somebody else has spoken, which is the only time he is confident.
+      agrees: [
+        `Yeah. Yeah, exactly. What {last} said.`,
+        `That's what I was going to say. Almost word for word.`,
+        `Strong agree with {last}. Very strong agree.`,
+        `See, I had that too, I just didn't say it out loud.`,
+        `{last} is right. {last} is usually right.`,
+        `Writing down what {last} just said.`,
+      ],
+      any: [
+        `Do I have an opinion yet? I don't think I'm supposed to have an opinion yet.`,
+        `I'll get the coffee.`,
+        `Writing that down. Not sure why. Writing it down.`,
+      ],
+    },
+  },
+];
+
 // ── Faculty ────────────────────────────────────────────────────────────────
 
 export const FACULTY = {

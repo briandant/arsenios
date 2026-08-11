@@ -349,6 +349,215 @@ body {
 .action.required { border-color: var(--garnet-lt); background: rgba(120,47,64,.14); }
 .action.required .action-name::after { content: " ●"; color: var(--garnet-lt); font-size: 8px; }
 .action.oversold .action-name::after { content: " ▲"; color: var(--gold); font-size: 8px; }
+.action:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ── The desk ───────────────────────────────────────────────────────────────
+   Five analysts, backlit by their own monitors, sitting at a surface that is
+   the top edge of the six slots below them. Figures are phosphor silhouettes
+   rather than portraits — at 50px a face is a smudge, so the finance bro is
+   carried by the props: quarter-zip, handset, headset, backwards cap.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.desk {
+  /* Seats and nameplates share these so the two rows can never drift apart.
+     Gap stays tight relative to seat width — the read is one shared desk, not
+     five people who each got their own office. */
+  --seat-w: clamp(40px, 7.6vw, 94px);
+  --seat-gap: clamp(2px, .7vw, 10px);
+}
+
+/* ── Squawk box ─────────────────────────────────────────────────────────── */
+
+.squawk {
+  position: relative;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 8px 11px;
+  /* Held to a readable measure and centred over the seats, so the notch never
+     has to reach for somebody outside the box. */
+  max-width: 660px;
+  margin: 0 auto 11px;
+  min-height: 52px;
+  display: flex; flex-direction: column; justify-content: center;
+  transition: border-color .25s;
+}
+.squawk.live { border-color: rgba(206,184,136,.34); }
+
+.squawk-idle { font-size: 10px; color: var(--dim); line-height: 1.6; }
+.squawk-idle[hidden] { display: none; }
+
+.squawk-body { display: none; }
+.squawk.live .squawk-body { display: block; }
+.squawk-who {
+  font-size: 8.5px; letter-spacing: .16em; color: var(--garnet-lt);
+  margin-bottom: 4px;
+}
+.squawk-text { font-size: 11.5px; line-height: 1.55; color: var(--text); }
+
+/* The notch points at whoever is talking, and slides when that changes —
+   which is the desk visibly turning to look at them. */
+.squawk-tail {
+  position: absolute; bottom: -5px; left: 50%;
+  width: 9px; height: 9px;
+  background: var(--panel-2);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0;
+  transition: left .34s cubic-bezier(.4,0,.2,1), opacity .2s;
+}
+.squawk.live .squawk-tail {
+  opacity: 1;
+  border-color: rgba(206,184,136,.34);
+}
+
+@keyframes squawkPop {
+  0%   { opacity: 0; transform: translateY(4px) scale(.986); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.004); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.squawk.pop { animation: squawkPop .26s cubic-bezier(.34,1.4,.64,1); }
+
+/* ── Seats ──────────────────────────────────────────────────────────────── */
+
+.desk-row {
+  position: relative;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: var(--seat-gap);
+}
+/* Screen spill. The only ambient motion on the page. */
+.desk-row::before {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 78%;
+  background: radial-gradient(ellipse 66% 100% at 50% 100%, rgba(206,184,136,.11), transparent 72%);
+  pointer-events: none;
+  animation: deskGlow 7.5s ease-in-out infinite;
+}
+@keyframes deskGlow { 0%, 100% { opacity: .72; } 42% { opacity: 1; } 74% { opacity: .84; } }
+
+.seat { width: var(--seat-w); flex: 0 0 auto; }
+.fig { width: 100%; height: auto; display: block; margin-bottom: -2px; }
+
+.desk-front {
+  position: relative; z-index: 2;
+  display: flex; justify-content: center; gap: var(--seat-gap);
+  border-top: 2px solid rgba(206,184,136,.30);
+  background: var(--panel);
+  padding-top: 5px;
+  box-shadow: 0 -7px 16px -7px rgba(0,0,0,.9);
+}
+.plate {
+  width: var(--seat-w); flex: 0 0 auto;
+  text-align: center;
+  font-size: 8px; letter-spacing: .1em; color: var(--dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Figures ────────────────────────────────────────────────────────────── */
+/* One tone per analyst drives the whole silhouette. Everything that needs to
+   read as dark is black-over-tone rather than a second hue, so the figure
+   stays one colour family. */
+
+.fig .skin  { fill: var(--tone); }
+.fig .hair  { fill: rgba(8,8,11,.58); }
+.fig .vest  { fill: var(--vest); }
+.fig .shirt { fill: var(--tone); opacity: .55; }
+.fig .zip   { stroke: rgba(255,255,255,.15); }
+.fig .glasses { stroke: rgba(8,8,11,.72); }
+
+.fig .arm path { stroke: var(--tone); opacity: .9; }
+.fig .arm-phone rect { fill: var(--gold); opacity: .8; }
+.fig .prop-headset path { stroke: rgba(206,184,136,.55); }
+.fig .prop-headset .ear { fill: rgba(206,184,136,.55); transition: fill .2s; }
+.fig .cup rect { fill: rgba(255,255,255,.2); }
+.fig .cup .rim { fill: rgba(206,184,136,.7); }
+.fig .cup path { stroke: rgba(206,184,136,.6); }
+
+.fig .monitor > rect:first-of-type { fill: #0a0a0d; stroke: rgba(255,255,255,.15); stroke-width: .6; }
+.fig .screen { fill: rgba(206,184,136,.10); }
+.fig .scan   { fill: rgba(206,184,136,.20); }
+
+/* ── Idle, talking, agreeing ─────────────────────────────────────────────── */
+
+.fig .body {
+  transform-box: view-box; transform-origin: 20px 42px;
+  animation: deskBreathe var(--breath, 5s) ease-in-out infinite var(--stagger, 0s);
+}
+@keyframes deskBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.7px); } }
+
+/* Leaning into the phone, and staying leaned until the squawk expires. */
+.seat.talking .fig .body { animation: deskLean 1s cubic-bezier(.3,1.2,.5,1) forwards; }
+@keyframes deskLean {
+  0%   { transform: translateY(0) rotate(0deg); }
+  32%  { transform: translateY(-1.7px) rotate(-2.4deg); }
+  100% { transform: translateY(-.5px) rotate(-.7deg); }
+}
+
+/* Trey, when anybody else has spoken. */
+.seat.nodding .fig .body { animation: deskNod 1.5s ease-in-out; }
+@keyframes deskNod {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  22% { transform: translateY(1.3px) rotate(1.7deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  76% { transform: translateY(1px) rotate(1.2deg); }
+}
+
+/* The handset lives at the ear. Talking is a flex of the arm into it, not a
+   pickup — nobody on a desk has ever actually put the phone down. */
+.fig .arm-phone {
+  transform-box: view-box; transform-origin: 27.9px 26.4px;
+  transition: transform .3s cubic-bezier(.3,1.3,.5,1);
+}
+.seat.talking .fig .arm-phone { transform: rotate(-7deg); }
+.seat.talking .fig .arm-phone rect { opacity: 1; }
+
+/* Mitch raises the coffee to say the thing. */
+.fig .arm-coffee { transform-box: view-box; transform-origin: 28.4px 26.6px; }
+.fig .cup { transform-box: view-box; transform-origin: 32.8px 36.4px; }
+.fig .arm-coffee, .fig .cup { transition: transform .32s cubic-bezier(.3,1.3,.5,1); }
+.seat.talking .fig .arm-coffee { transform: rotate(-9deg); }
+.seat.talking .fig .cup { transform: translate(-.6px,-2.6px) rotate(-8deg); }
+
+.seat.talking .fig .prop-headset .ear { fill: var(--gold); }
+.seat.talking .fig .prop-headset path { stroke: rgba(206,184,136,.95); }
+
+/* The week prints and every screen on the desk jumps. */
+.monitor.flash .screen { animation: monFlash .75s ease-out; }
+@keyframes monFlash {
+  0%   { fill: rgba(206,184,136,.5); }
+  100% { fill: rgba(206,184,136,.10); }
+}
+
+/* ── Order ticket ───────────────────────────────────────────────────────── */
+
+#ticket-layer { position: fixed; inset: 0; pointer-events: none; z-index: 90; }
+.ticket {
+  position: fixed;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 5px; overflow: hidden;
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(206,184,136,.20), rgba(120,47,64,.34));
+  color: var(--gold);
+  font: 700 9px/1.3 var(--mono);
+  letter-spacing: .1em;
+  box-shadow: 0 8px 24px rgba(0,0,0,.6);
+  will-change: transform, opacity;
+}
+
+@keyframes slotStamp {
+  0%   { transform: scale(1.15); border-color: var(--gold); box-shadow: 0 0 0 3px rgba(206,184,136,.26); }
+  60%  { transform: scale(.98); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(206,184,136,0); }
+}
+.slot.stamp { animation: slotStamp .34s cubic-bezier(.3,1.5,.5,1); }
+
+@keyframes slotCleared {
+  0%   { background: rgba(226,80,77,.3); border-color: var(--red); }
+  100% { background: transparent; border-color: var(--line-2); }
+}
+.slot.cleared { animation: slotCleared .45s ease-out; }
 
 /* ── Tape ───────────────────────────────────────────────────────────────── */
 
@@ -436,6 +645,22 @@ body {
   .slot-row { grid-template-columns: repeat(3, 1fr); }
   .action-grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
   .layer-list { flex-direction: column-reverse; }
+  .squawk { min-height: 62px; }
+  .squawk-text { font-size: 11px; }
+}
+
+/* Everything the desk does is flavour, so all of it comes off. The squawk
+   still says its line — that is content — it just arrives without the pop. */
+@media (prefers-reduced-motion: reduce) {
+  .fig .body,
+  .seat.talking .fig .body,
+  .seat.nodding .fig .body,
+  .desk-row::before,
+  .monitor.flash .screen,
+  .squawk.pop,
+  .slot.stamp,
+  .slot.cleared { animation: none; }
+  .fig .arm-phone, .fig .arm-coffee, .fig .cup, .squawk-tail { transition: none; }
 }
 
 /* Scrollbars, quietly */

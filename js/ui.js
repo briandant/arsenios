@@ -191,6 +191,10 @@ export function renderActions(state, picks, onAdd, onRemove) {
       d.className = 'slot filled';
       d.textContent = k === 0 ? a.name : '↳';
       d.title = 'Click to remove';
+      // The pick index survives the re-render, which is how main.js finds the
+      // slot an order ticket should fly into.
+      d.dataset.pi = pi;
+      if (k === 0) d.dataset.head = '';
       d.addEventListener('click', () => onRemove(pi));
       row.appendChild(d);
       idx++;
@@ -251,7 +255,7 @@ export function renderActions(state, picks, onAdd, onRemove) {
         </div>
         <div class="action-desc">${esc(a.desc)}</div>
         <div class="action-fx">${fx}${en}</div>`;
-      b.addEventListener('click', () => onAdd(a.id));
+      b.addEventListener('click', () => onAdd(a.id, b));
       grid.appendChild(b);
     }
   }
